@@ -16,11 +16,23 @@ android {
 }
 
 dependencies {
+    /**
+     * other modules
+     */
+    implementation(project(":common"))
     implementation(project(":domain"))
 
+    /**
+     * dependency inject
+     */
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    /**
+     * test libraries
+     * (Use api instead of implementation.
+     * Because when testing, to import test library dependencies from other modules.)
+     */
     api(libs.junit)
     api(libs.androidx.test.ext.junit)
     api(libs.androidx.test.espresso.core)
