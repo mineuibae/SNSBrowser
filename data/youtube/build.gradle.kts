@@ -8,16 +8,29 @@ plugins {
 }
 
 android {
-    namespace = "com.example.snsbrowser.common"
+    namespace = "com.example.snsbrowser.data.youtube"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        buildConfigField("String", "API_KEY", "\"AIzaSyBEuSoFz_Zibu6MjuNe8he7YzhKmuv6csg\"")
+        buildConfigField("String", "BASE_URL", "\"https://www.googleapis.com/youtube/v3/\"")
+    }
 }
 
 dependencies {
-    // Do not implement other modules from common module.
+    /**
+     * other modules
+     */
+    implementation(project(":common"))
+    implementation(project(":domain"))
 
     /**
      * dependency inject
@@ -29,6 +42,7 @@ dependencies {
      * coroutines
      */
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     /**
      * serialization
@@ -36,10 +50,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     /**
-     * okhttp
+     * retrofit
      */
-    implementation(libs.okhttp.urlconnection)
-    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization.converter)
 
     /**
      * test
