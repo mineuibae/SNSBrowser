@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "SNSBrowser"
 include(":app")
 include(":testing")
+include(":domain")

@@ -16,6 +16,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
@@ -26,4 +28,6 @@ dependencies {
     api(libs.androidx.test.runner)
     api(libs.hilt.android.test)
     api(libs.kotlin.test)
+    api(libs.kotlin.coroutines.test)
+    api(libs.turbine)
 }
