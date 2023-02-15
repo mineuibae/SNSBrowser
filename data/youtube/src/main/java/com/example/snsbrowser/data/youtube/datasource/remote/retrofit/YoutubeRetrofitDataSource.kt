@@ -1,29 +1,25 @@
 package com.example.snsbrowser.data.youtube.datasource.remote.retrofit
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.snsbrowser.data.youtube.datasource.remote.YoutubeRemoteDataSource
-import com.example.snsbrowser.data.youtube.datasource.remote.response.asModel
 import com.example.snsbrowser.domain.model.YoutubeChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class YoutubeRetrofitDataSource @Inject constructor(
     private val youtubeApi: YoutubeApi
 ) : YoutubeRemoteDataSource {
 
-    override fun search(query: String): Flow<List<YoutubeChannel>> = flow {
-        val response = youtubeApi.search(
-            part = "snippet",
-            pageToken = null,
-            q = query,
-            maxResults = MAXIMUM_SEARCH_PAGE,
-            type = "channel"
-        )
-
-        emit(response.items.map { it.asModel() })
+    override fun search(query: String): Flow<PagingData<YoutubeChannel>> {
+        return Pager(
+            config = PagingConfig(enablePlaceholders = false, pageSize = SEARCH_PAGE_SIZE, initialLoadSize = SEARCH_PAGE_SIZE),
+            pagingSourceFactory = { YoutubeChannelPagingSource(youtubeApi, query) }
+        ).flow
     }
 
     companion object {
-        private const val MAXIMUM_SEARCH_PAGE = 5
+        private const val SEARCH_PAGE_SIZE = 5
     }
 }

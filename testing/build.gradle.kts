@@ -30,6 +30,16 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     /**
+     * serialization
+     */
+    implementation(libs.kotlinx.serialization.json)
+
+    /**
+     * paging
+     */
+    api(libs.androidx.paging.runtime.ktx)
+
+    /**
      * test libraries
      * (Use api instead of implementation.
      * Because when testing, to import test library dependencies from other modules.)

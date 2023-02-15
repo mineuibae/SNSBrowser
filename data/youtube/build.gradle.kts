@@ -56,6 +56,11 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization.converter)
 
     /**
+     * paging
+     */
+    implementation(libs.androidx.paging.common.ktx)
+
+    /**
      * test
      */
     testImplementation(project(":testing"))

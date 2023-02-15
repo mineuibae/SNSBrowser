@@ -30,6 +30,13 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
     /**
+     * paging
+     * (Do not implementation paging.runtime from domain layer.
+     * Because there is no android component in paging.common.)
+     */
+    implementation(libs.androidx.paging.common.ktx)
+
+    /**
      * test
      */
     testImplementation(project(":testing"))
