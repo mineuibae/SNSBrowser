@@ -2,17 +2,12 @@ package com.example.snsbrowser.testing.repository
 
 import com.example.snsbrowser.domain.model.YoutubeChannel
 import com.example.snsbrowser.domain.repository.YoutubeRepository
-import kotlinx.coroutines.channels.BufferOverflow
+import com.example.snsbrowser.testing.datasource.TestYoutubeRemoteDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 class TestYoutubeRepository : YoutubeRepository {
-    private val channelFlow: MutableSharedFlow<List<YoutubeChannel>> =
-        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override fun searchChannels(query: String): Flow<List<YoutubeChannel>> = channelFlow
+    private val youtubeRemoteDataSource = TestYoutubeRemoteDataSource()
 
-    fun sendYoutubeChannels(channels: List<YoutubeChannel>) {
-        channelFlow.tryEmit(channels)
-    }
+    override fun searchChannels(query: String): Flow<List<YoutubeChannel>> = youtubeRemoteDataSource.search(query)
 }
