@@ -1,7 +1,9 @@
 package com.example.snsbrowser.feature.search
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.snsbrowser.feature.search.databinding.FragmentSearchBinding
@@ -23,6 +25,26 @@ class SearchFragment : BaseFragment() {
 
         binding.apply {
             recyclerView.adapter = adapter
+
+            editText.apply {
+                setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_GO) {
+                        modifySearchListFromInput()
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+                setOnKeyListener { _, keyCode, event ->
+                    if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                        modifySearchListFromInput()
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
         }
 
         lifecycleScope.launchWhenStarted {
@@ -30,5 +52,18 @@ class SearchFragment : BaseFragment() {
                 adapter.submitData(it)
             }
         }
+    }
+
+    private fun FragmentSearchBinding.modifySearchListFromInput() {
+        editText.text.let {
+            if(it.isNotEmpty()) {
+                smoothScrollToPosition()
+                viewModel.modifyQuery(it.toString())
+            }
+        }
+    }
+
+    private fun FragmentSearchBinding.smoothScrollToPosition() {
+        recyclerView.smoothScrollToPosition(0)
     }
 }

@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class SearchViewModel @Inject constructor(
     getYoutubeChannelListUseCase: GetYoutubeChannelListUseCase
 ): BaseViewModel() {
 
-    private val _searchQuery = MutableStateFlow(DEFAULT_QUERY)
+    private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
     fun modifyQuery(query: String) {
@@ -24,11 +25,9 @@ class SearchViewModel @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
-    val channels = searchQuery.flatMapLatest { query ->
+    val channels = searchQuery.filter { query ->
+        query.isNotEmpty()
+    }.flatMapLatest { query ->
         getYoutubeChannelListUseCase(query)
     }.cachedIn(viewModelScope)
-
-    companion object {
-        const val DEFAULT_QUERY = "토스"
-    }
 }
