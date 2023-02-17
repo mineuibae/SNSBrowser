@@ -5,8 +5,9 @@ import com.example.snsbrowser.domain.model.YoutubeChannel
 import com.example.snsbrowser.domain.repository.YoutubeRepository
 import com.example.snsbrowser.testing.datasource.TestYoutubeRemoteDataSource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class TestYoutubeRepository : YoutubeRepository {
+class TestYoutubeRepository @Inject constructor(): YoutubeRepository {
 
     private val youtubeRemoteDataSource = TestYoutubeRemoteDataSource()
 

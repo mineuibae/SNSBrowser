@@ -1,46 +1,22 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "com.example.snsbrowser"
+    namespace = "com.example.snsbrowser.feature.search"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.snsbrowser"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = libs.versions.versionCode.get().toInt()
-        versionName = libs.versions.versionName.get()
-
         testInstrumentationRunner = "com.example.snsbrowser.testing.HiltTestRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         dataBinding = true
-    }
-    packagingOptions {
-        resources {
-            excludes.add("/META-INF/AL2.0")
-            excludes.add("/META-INF/LGPL2.1")
-        }
     }
 }
 
@@ -48,8 +24,9 @@ dependencies {
     /**
      * other modules
      */
-    implementation(project(":data:youtube"))
-    implementation(project(":feature:search"))
+    implementation(project(":common"))
+    implementation(project(":domain"))
+    implementation(project(":ui"))
 
     /**
      * androidx
@@ -74,7 +51,26 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     /**
+     * coroutines
+     */
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    /**
+     * paging
+     */
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    /**
+     * coil
+     */
+    implementation(libs.coil.kt)
+    implementation(libs.coil.svg)
+
+    /**
      * test
      */
+    testImplementation(project(":testing"))
     androidTestImplementation(project(":testing"))
+    kaptAndroidTest(libs.hilt.android.compiler)
 }

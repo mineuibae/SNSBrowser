@@ -28,6 +28,7 @@ dependencies {
      */
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    kapt(libs.hilt.android.compiler)
 
     /**
      * serialization

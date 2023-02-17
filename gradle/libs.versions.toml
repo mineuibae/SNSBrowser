@@ -34,6 +34,9 @@ okhttp = "4.10.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerialization = "0.8.0"
 
+# coil
+coil = "2.2.2"
+
 # test
 androidxTestCore = "1.5.0"
 androidxTestEspresso = "3.5.1"
@@ -74,6 +77,10 @@ retrofit-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:
 # java
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 
+# coil
+coil-kt = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+
 # test
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidxTestCore" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }
@@ -81,6 +88,7 @@ androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "a
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
 hilt-android-test = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }

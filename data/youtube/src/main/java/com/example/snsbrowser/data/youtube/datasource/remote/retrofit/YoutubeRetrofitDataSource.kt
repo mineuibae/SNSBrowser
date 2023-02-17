@@ -1,11 +1,10 @@
 package com.example.snsbrowser.data.youtube.datasource.remote.retrofit
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.snsbrowser.data.youtube.datasource.remote.YoutubeRemoteDataSource
 import com.example.snsbrowser.domain.model.YoutubeChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class YoutubeRetrofitDataSource @Inject constructor(
@@ -14,9 +13,18 @@ class YoutubeRetrofitDataSource @Inject constructor(
 
     override fun search(query: String): Flow<PagingData<YoutubeChannel>> {
         return Pager(
-            config = PagingConfig(enablePlaceholders = false, pageSize = SEARCH_PAGE_SIZE, initialLoadSize = SEARCH_PAGE_SIZE),
+            config = PagingConfig(enablePlaceholders = true, pageSize = SEARCH_PAGE_SIZE, initialLoadSize = SEARCH_PAGE_SIZE),
             pagingSourceFactory = { YoutubeChannelPagingSource(youtubeApi, query) }
-        ).flow
+        ).flow.map { pagingData ->
+            val channelIds = mutableSetOf<String>()
+            pagingData.filter { channel ->
+                if(channelIds.contains(channel.channelId)) {
+                    false
+                } else {
+                    channelIds.add(channel.channelId)
+                }
+            }
+        }
     }
 
     companion object {

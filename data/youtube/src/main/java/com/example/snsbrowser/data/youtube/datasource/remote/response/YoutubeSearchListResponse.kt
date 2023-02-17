@@ -41,5 +41,5 @@ fun Item.asModel() = YoutubeChannel(
     channelId = snippet.channelId,
     channelTitle = snippet.channelTitle,
     description = snippet.description,
-    thumbnail = snippet.thumbnails.default.url
+    thumbnail = snippet.thumbnails.high.url
 )
